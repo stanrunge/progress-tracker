@@ -1,14 +1,13 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from "vite";
+import laravel from "laravel-vite-plugin";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 
 export default defineConfig({
     plugins: [
         laravel({
-            input: 'resources/js/app.tsx',
-            ssr: 'resources/js/ssr.tsx',
+            input: ["resources/css/app.css", "resources/js/app.ts"],
             refresh: true,
         }),
-        react(),
+        svelte({}),
     ],
 });
