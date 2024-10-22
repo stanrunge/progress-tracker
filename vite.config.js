@@ -1,6 +1,7 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
-import vue from '@vitejs/plugin-vue';
+import { svelte } from '@sveltejs/vite-plugin-svelte'
+import laravel from 'laravel-vite-plugin'
+import { defineConfig } from 'vite'
+import { run } from 'vite-plugin-run'
 
 export default defineConfig({
     plugins: [
@@ -9,13 +10,18 @@ export default defineConfig({
             ssr: 'resources/js/ssr.ts',
             refresh: true,
         }),
-        vue({
-            template: {
-                transformAssetUrls: {
-                    base: null,
-                    includeAbsolute: false,
-                },
+        run([
+            {
+                name: 'trail generate routes',
+                pattern: 'routes/*.php',
+                run: ['php', 'artisan', 'trail:generate'],
             },
-        }),
+            {
+                name: 'clear compiled views',
+                pattern: 'routes/*.php',
+                run: ['php', 'artisan', 'view:clear'],
+            },
+        ]),
+        svelte(),
     ],
-});
+})

@@ -1,27 +1,23 @@
-import '../css/app.css';
-import './bootstrap';
+import '../css/app.css'
+import './bootstrap'
 
-import { createInertiaApp } from '@inertiajs/vue3';
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { createApp, DefineComponent, h } from 'vue';
-import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+import type { ResolvedComponent } from '@inertiajs/svelte'
+import { createInertiaApp } from '@inertiajs/svelte'
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
+import { defineRoutes } from 'momentum-trail'
+import { hydrate, mount } from 'svelte'
+import routes from './routes.json'
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+defineRoutes(routes)
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
     resolve: (name) =>
-        resolvePageComponent(
-            `./Pages/${name}.vue`,
-            import.meta.glob<DefineComponent>('./Pages/**/*.vue'),
-        ),
-    setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
-            .use(plugin)
-            .use(ZiggyVue)
-            .mount(el);
+        resolvePageComponent(`./Pages/${name}.svelte`, import.meta.glob<ResolvedComponent>('./Pages/**/*.svelte')),
+    setup({ el, App }) {
+        if (el.dataset.serverRendered === 'true') {
+            hydrate(App, { target: el })
+        } else {
+            mount(App, { target: el })
+        }
     },
-    progress: {
-        color: '#4B5563',
-    },
-});
+})

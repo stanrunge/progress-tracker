@@ -11,8 +11,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        @routes
-        @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
+        @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.svelte"])
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
