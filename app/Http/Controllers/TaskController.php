@@ -22,6 +22,9 @@ class TaskController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'type' => 'required|integer',
+            'progress_items' => 'integer',
+            'total_items' => 'integer'
         ]);
 
         $request->user()->tasks()->create($validated);

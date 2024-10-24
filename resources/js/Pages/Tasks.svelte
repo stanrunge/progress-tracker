@@ -2,9 +2,10 @@
     import { useForm, Link } from "@inertiajs/svelte";
 
     let form = useForm({
-        type: "book",
+        type: 1,
         name: "",
-        progress: "",
+        progress_items: 0,
+        total_items: 0,
     });
 
     function handleSubmit() {
@@ -14,8 +15,17 @@
     export let tasks;
     export let auth;
 
-    console.log(auth);
-    console.log(tasks);
+    function getTaskType(id: number) {
+        switch (id) {
+            case 1:
+                return "Book";
+                break;
+            case 2:
+                return "Course";
+            default:
+                return "";
+        }
+    }
 </script>
 
 <div class="flex justify-around">
@@ -60,45 +70,57 @@
 
 <div class="flex justify-center">
     <form on:submit|preventDefault={handleSubmit}>
-    <table>
-        <thead>
-            <tr>
-                <th scope="col">Type</th>
-                <th scope="col">Name</th>
-                <th scope="col">Progress</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th>
-                    <select bind:value={$form.type}>
-                        <option value="book">Book</option>
-                        <option value="course">Course</option>
-                        <option value="project">Project</option>
-                    </select>
-                </th>
-                <th><input bind:value={$form.name} type="text" /></th>
-                <th><input bind:value={$form.progress} type="text" /></th>
-                <th
-                    ><button
-                        class="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded"
-                        >Save</button
-                    ></th
-                >
-            </tr>
-            {#each tasks as task}
+        <table>
+            <thead>
                 <tr>
-                    <th>Book</th>
-                    <th>{task.name}</th>
-                    <th>200 / 800 (25.00%)</th>
-                    <th>
-                        <button> Edit </button>
-                        <button>Delete</button>
-                    </th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Progress</th>
+                    <th scope="col">Actions</th>
                 </tr>
-            {/each}
-        </tbody>
-    </table>
-        </form>
+            </thead>
+            <tbody>
+                <tr class="border-b">
+                    <th>
+                        <select bind:value={$form.type}>
+                            <option value={1}>Book</option>
+                            <option value={2}>Course</option>
+                            <option value={3}>Project</option>
+                        </select>
+                    </th>
+                    <th><input bind:value={$form.name} type="text" /></th>
+                    <th
+                        ><input
+                            bind:value={$form.progress_items}
+                            type="number"
+                        /><input
+                            type="number"
+                            bind:value={$form.total_items}
+                        /></th
+                    >
+                    <th
+                        ><button
+                            class="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded"
+                            >Save</button
+                        ></th
+                    >
+                </tr>
+                {#each tasks as task}
+                    <tr class="border-b">
+                        <th>{getTaskType(task.type)}</th>
+                        <th>{task.name}</th>
+                        <th
+                            >{task.progress_items} / {task.total_items} ({Math.round(
+                                (task.progress_items / task.total_items) * 100,
+                            )}%)</th
+                        >
+                        <th>
+                            <button>Edit</button>
+                            <button>Delete</button>
+                        </th>
+                    </tr>
+                {/each}
+            </tbody>
+        </table>
+    </form>
 </div>
