@@ -15,6 +15,7 @@
     export let auth;
 
     console.log(auth);
+    console.log(tasks);
 </script>
 
 <div class="flex justify-around">
@@ -58,6 +59,7 @@
 </div>
 
 <div class="flex justify-center">
+    <form on:submit|preventDefault={handleSubmit}>
     <table>
         <thead>
             <tr>
@@ -81,9 +83,7 @@
                 <th
                     ><button
                         class="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded"
-                        on:click={() => {
-                            handleSubmit();
-                        }}>Save</button
+                        >Save</button
                     ></th
                 >
             </tr>
@@ -100,4 +100,5 @@
             {/each}
         </tbody>
     </table>
+        </form>
 </div>
