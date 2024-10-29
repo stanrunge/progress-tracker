@@ -43,7 +43,7 @@
             >
                 <img
                     src={auth.user.profile_photo_url}
-                    alt="Profile Photo"
+                    alt="Profile"
                     class="rounded-full h-10 w-10"
                 />
                 <span class="ml-2">{auth.user.name}</span>
