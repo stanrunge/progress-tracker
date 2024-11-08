@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,5 +18,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('tasks', TaskController::class)->only(['index', 'store'])->middleware(['auth']);
+
+Route::resource('categories', CategoryController::class)->middleware(['auth']);
 
 require __DIR__.'/auth.php';
